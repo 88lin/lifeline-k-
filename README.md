@@ -30,6 +30,24 @@ An AI-powered destiny analysis tool combining traditional Chinese BaZi numerolog
 - 🔮 把握关键转折点
 - 📊 预见 100 年人生轨迹
 
+### 📸 系统展示
+
+<div align="center">
+
+**首页**
+
+<img src="doc/首页.png" alt="首页" width="800"/>
+
+**八字排盘**
+
+<img src="doc/八字排盘.png" alt="八字排盘" width="800"/>
+
+**K线分析**
+
+<img src="doc/k线.png" alt="K线分析" width="800"/>
+
+</div>
+
 ### ✨ 核心功能
 
 - **智能八字排盘**：自动计算真太阳时和农历日期
@@ -221,6 +239,24 @@ Life K-Line is an innovative destiny analysis application that combines traditio
 - ⚠️ Avoid "bear market" risks
 - 🔮 Seize key turning points
 - 📊 Foresee your 100-year life trajectory
+
+### 📸 System Screenshots
+
+<div align="center">
+
+**Homepage**
+
+<img src="doc/首页.png" alt="Homepage" width="800"/>
+
+**BaZi Charting**
+
+<img src="doc/八字排盘.png" alt="BaZi Charting" width="800"/>
+
+**K-Line Analysis**
+
+<img src="doc/k线.png" alt="K-Line Analysis" width="800"/>
+
+</div>
 
 ### ✨ Key Features
 

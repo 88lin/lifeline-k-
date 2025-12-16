@@ -232,6 +232,62 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted, lang }) => {
         </div>
       </div>
 
+      {/* VeeVerse Promotion Section */}
+      <div className="max-w-6xl mx-auto px-4 py-20">
+        <div className="rounded-2xl bg-gradient-to-br from-purple-900/40 via-slate-800/60 to-blue-900/40 border border-purple-500/30 p-10 md:p-12 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+          {/* Background decoration */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="px-4 py-1.5 rounded-full bg-purple-500/20 border border-purple-400/30 backdrop-blur">
+                <span className="text-purple-300 text-sm font-semibold">
+                  {lang === 'zh' ? '🚀 进阶产品推荐' : '🚀 Advanced Product'}
+                </span>
+              </div>
+            </div>
+
+            <h3 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+                VeeVerse
+              </span>
+              {lang === 'zh' ? ' 灵魂旅迹' : ' Soul Journey'}
+            </h3>
+
+            <p className="text-xl md:text-2xl text-gray-200 mb-6 font-medium">
+              {lang === 'zh'
+                ? '带你找到属于你的那条航线'
+                : 'Find Your Unique Path in Life'}
+            </p>
+
+            <p className="text-gray-300 text-lg mb-8 leading-relaxed max-w-3xl">
+              {lang === 'zh'
+                ? '超越传统命理分析，VeeVerse 灵魂旅迹运用前沿 AI 技术，深度解析你的人生轨迹。不只是预测未来，更是帮助你理解过去、把握现在，在人生的十字路口找到最适合你的方向。每个人都有独特的灵魂航线，让我们一起探索你的专属旅程。'
+                : 'Beyond traditional fortune telling, VeeVerse Soul Journey uses cutting-edge AI to deeply analyze your life trajectory. More than predicting the future, it helps you understand the past, seize the present, and find your best direction at life\'s crossroads.'
+              }
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              <a
+                href="https://veeverseai.cn/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-lg font-semibold rounded-xl transition-all duration-300 flex items-center gap-2 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02]"
+              >
+                {lang === 'zh' ? '立即体验 VeeVerse' : 'Try VeeVerse Now'}
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </a>
+
+              <div className="flex items-center gap-2 text-purple-300 text-sm">
+                <Sparkles className="w-4 h-4" />
+                <span>{lang === 'zh' ? '更深度 · 更智能 · 更个性化' : 'Deeper · Smarter · Personalized'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* CTA Section */}
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
         <div className="rounded-2xl bg-gradient-to-r from-teal-500/10 to-cyan-500/10 border border-teal-500/30 p-12 backdrop-blur">

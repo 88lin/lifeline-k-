@@ -28,6 +28,32 @@ if (useNativeGemini) {
 }
 
 // ------------------------------------------------------------------
+// Helper function to detect quota exhausted errors
+// ------------------------------------------------------------------
+
+const isQuotaExhaustedError = (error: any): boolean => {
+  if (!error) return false;
+
+  const errorMessage = error.message?.toLowerCase() || '';
+  const errorString = error.toString().toLowerCase();
+
+  // Check for common quota exhaustion patterns
+  const quotaPatterns = [
+    'quota',
+    'rate limit',
+    'too many requests',
+    '429',
+    'resource exhausted',
+    'insufficient_quota',
+    'quota_exceeded',
+  ];
+
+  return quotaPatterns.some(pattern =>
+    errorMessage.includes(pattern) || errorString.includes(pattern)
+  );
+};
+
+// ------------------------------------------------------------------
 // Schema 定义（用于原生 Gemini）
 // ------------------------------------------------------------------
 
@@ -232,8 +258,14 @@ export const calculateBaZi = async (input: UserInput): Promise<BaZiResult> => {
       };
     }
     throw new Error("Failed to calculate BaZi");
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini BaZi Calc Error:", error);
+
+    // Check if it's a quota exhausted error
+    if (isQuotaExhaustedError(error)) {
+      throw new Error("QUOTA_EXHAUSTED");
+    }
+
     throw error;
   }
 };
@@ -371,8 +403,14 @@ export const generateDestinyAnalysis = async (confirmedBaZi: BaZiResult, lang: L
       };
     }
     throw new Error("No analysis data returned");
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini Analysis Error:", error);
+
+    // Check if it's a quota exhausted error
+    if (isQuotaExhaustedError(error)) {
+      throw new Error("QUOTA_EXHAUSTED");
+    }
+
     throw error;
   }
 };

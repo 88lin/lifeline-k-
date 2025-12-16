@@ -5,6 +5,7 @@ import BaZiDisplay from './components/BaZiDisplay';
 import BaZiConfirmation from './components/BaZiConfirmation';
 import KLineChart from './components/KLineChart';
 import AnalysisSection from './components/AnalysisSection';
+import ApiQuotaDialog from './components/ApiQuotaDialog';
 import { UserInput, AnalysisResult, Language, BaZiResult } from './types';
 import { calculateBaZi, generateDestinyAnalysis } from './services/geminiService';
 import { Sparkles, Languages, Moon, Sun } from 'lucide-react';
@@ -14,7 +15,8 @@ import { getTexts } from './locales';
 const App: React.FC = () => {
   const [step, setStep] = useState<'landing' | 'input' | 'confirmation' | 'result'>('landing');
   const [loading, setLoading] = useState(false);
-  
+  const [showQuotaDialog, setShowQuotaDialog] = useState(false);
+
   // Theme State
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window !== 'undefined') {
@@ -61,9 +63,15 @@ const App: React.FC = () => {
       const result = await calculateBaZi(data);
       setPreliminaryBaZi(result);
       setStep('confirmation');
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Failed to calculate BaZi. Please try again.');
+
+      // Check if it's a quota exhausted error
+      if (error.message === 'QUOTA_EXHAUSTED') {
+        setShowQuotaDialog(true);
+      } else {
+        alert('Failed to calculate BaZi. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -76,9 +84,15 @@ const App: React.FC = () => {
       const result = await generateDestinyAnalysis(confirmedData, lang);
       setAnalysis(result);
       setStep('result');
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Failed to generate analysis. Please try again.');
+
+      // Check if it's a quota exhausted error
+      if (error.message === 'QUOTA_EXHAUSTED') {
+        setShowQuotaDialog(true);
+      } else {
+        alert('Failed to generate analysis. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -114,6 +128,18 @@ const App: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3">
+               {/* VeeverseAI Logo */}
+               <a
+                  href="https://veeverseai.cn/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-gray-200 hover:text-white text-xs font-semibold transition-all flex items-center gap-1.5 border border-slate-700 hover:border-teal-500/50"
+                  title="Visit VeeverseAI"
+               >
+                  <span className="text-teal-400">V</span>
+                  <span>eeverseAI</span>
+               </a>
+
                {/* GitHub Link */}
                <a
                   href="https://github.com/XIAOEEN/lifeline-k-"
@@ -255,13 +281,20 @@ const App: React.FC = () => {
             </div>
         )}
       </main>
-      
+
       {/* Simple Footer */}
       <footer className="bg-white dark:bg-slate-800 border-t border-gray-100 dark:border-slate-700 py-6 mt-auto print:hidden transition-colors">
         <div className="max-w-5xl mx-auto px-4 text-center text-gray-400 dark:text-gray-500 text-sm">
             <p>&copy; {new Date().getFullYear()} {t.appTitle}. {t.footer}</p>
         </div>
       </footer>
+
+      {/* API Quota Dialog */}
+      <ApiQuotaDialog
+        isOpen={showQuotaDialog}
+        onClose={() => setShowQuotaDialog(false)}
+        lang={lang}
+      />
     </div>
   );
 };

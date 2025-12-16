@@ -34,7 +34,7 @@ const ApiQuotaDialog: React.FC<ApiQuotaDialogProps> = ({ isOpen, onClose, lang }
   const t = texts[lang];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" style={{ animation: 'fadeIn 0.3s ease-in-out' }}>
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
@@ -42,11 +42,15 @@ const ApiQuotaDialog: React.FC<ApiQuotaDialogProps> = ({ isOpen, onClose, lang }
       />
 
       {/* Dialog */}
-      <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all animate-scale-in">
+      <div
+        className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all"
+        style={{ animation: 'scaleIn 0.2s ease-out' }}
+      >
         {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-1 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+          aria-label="Close"
         >
           <X size={20} />
         </button>
@@ -96,6 +100,23 @@ const ApiQuotaDialog: React.FC<ApiQuotaDialogProps> = ({ isOpen, onClose, lang }
           {t.closeButton}
         </button>
       </div>
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      `}</style>
     </div>
   );
 };

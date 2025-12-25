@@ -68,7 +68,12 @@ const AnalysisSection: React.FC<AnalysisSectionProps> = ({ analysis, lang, theme
             useCORS: true, // Handle external images if any
             backgroundColor: theme === 'dark' ? '#0f172a' : '#f9fafb', // Match background
             logging: false,
-            ignoreElements: (el) => el.classList.contains('print:hidden') // Ignore buttons
+            ignoreElements: (el) => {
+                // Ignore print:hidden elements, buttons, and any element with data-html2canvas-ignore
+                return el.classList.contains('print:hidden') ||
+                       el.hasAttribute('data-html2canvas-ignore') ||
+                       (el.tagName === 'DIV' && el.style.position === 'fixed' && el.style.zIndex === '9999');
+            }
         });
 
         const imgData = canvas.toDataURL('image/png');
@@ -174,8 +179,8 @@ const AnalysisSection: React.FC<AnalysisSectionProps> = ({ analysis, lang, theme
         </div>
       </div>
 
-      <div className="flex justify-center mt-8 pb-12 print:hidden">
-        <button 
+      <div className="flex justify-center mt-8 pb-12 print:hidden" data-html2canvas-ignore="true">
+        <button
             onClick={handleDownloadPDF}
             disabled={isGeneratingPdf}
             className="flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-slate-700 text-white rounded-full font-medium hover:bg-gray-800 dark:hover:bg-slate-600 transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"

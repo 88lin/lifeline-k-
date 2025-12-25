@@ -55,18 +55,23 @@ const AnalysisSection: React.FC<AnalysisSectionProps> = ({ analysis, lang, theme
   const handleDownloadPDF = async () => {
     setIsGeneratingPdf(true);
     try {
-        // We capture the entire document body or a specific container
-        // To ensure good quality, we might want to temporarily expand the detailed review or use a specific print container.
-        // For simplicity in this environment, we target the main content.
-        
         // Find the main content div
         const element = document.querySelector('main');
         if (!element) return;
 
+        // Temporarily remove dark mode class from html element to force light theme for PDF
+        const htmlElement = document.documentElement;
+        const hadDarkClass = htmlElement.classList.contains('dark');
+        if (hadDarkClass) {
+            htmlElement.classList.remove('dark');
+            // Wait for CSS transitions to complete
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
         const canvas = await html2canvas(element as HTMLElement, {
             scale: 2, // Higher resolution
             useCORS: true, // Handle external images if any
-            backgroundColor: theme === 'dark' ? '#0f172a' : '#f9fafb', // Match background
+            backgroundColor: '#ffffff', // Always use white background for PDF
             logging: false,
             ignoreElements: (el) => {
                 // Ignore print:hidden elements, buttons, and any element with data-html2canvas-ignore
@@ -75,6 +80,11 @@ const AnalysisSection: React.FC<AnalysisSectionProps> = ({ analysis, lang, theme
                        (el.tagName === 'DIV' && el.style.position === 'fixed' && el.style.zIndex === '9999');
             }
         });
+
+        // Restore dark mode if it was enabled
+        if (hadDarkClass) {
+            htmlElement.classList.add('dark');
+        }
 
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF({
